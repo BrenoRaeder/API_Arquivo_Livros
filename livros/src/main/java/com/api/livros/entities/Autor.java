@@ -16,7 +16,7 @@ public class Autor {
     @Column(name = "nome")
     private String nome;
 
-    @OneToMany(mappedBy = "livro")
+    @OneToMany(mappedBy = "autor")
     private List<Livro> listaLivros;
 
 

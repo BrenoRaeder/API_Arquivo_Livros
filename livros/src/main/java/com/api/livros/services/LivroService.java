@@ -43,7 +43,4 @@ public class LivroService {
         if(livroResponse == null) return true;
         else return false;
     }
-
-
-
 }
