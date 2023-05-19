@@ -19,7 +19,7 @@ public class Autor {
     @OneToMany(mappedBy = "livro")
     private List<Livro> listaLivros;
 
-    
+
     public int getIdAutor() {
         return idAutor;
     }
