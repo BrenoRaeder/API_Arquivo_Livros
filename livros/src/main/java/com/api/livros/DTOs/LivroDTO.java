@@ -1,40 +1,36 @@
-package com.api.livros.entities;
+package com.api.livros.DTOs;
 
-import jakarta.persistence.*;
+import com.api.livros.entities.Autor;
+import com.api.livros.entities.Livro;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "livro")
-public class Livro {
+public class LivroDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_livro")
     private int idLivro;
-
-    @Column(name = "titulo")
     private String titulo;
-
-    @Column(name = "data_inicio")
     private Date dataInicio;
-
-    @Column(name = "data_termino")
     private Date dataTermino;
-
-    @Column(name = "qtd_paginas")
     private int qtdPaginas;
-
-    @Column(name = "img_capa")
     private String imgCapa;
+    AutorDTO autorDTO;
 
-    @ManyToOne
-    @JoinColumn(name = "id_autor_FK", referencedColumnName = "id_autor")
-    Autor autor;
+    public LivroDTO() {}
 
-    @ManyToOne
-    @JoinColumn(name = "id_genero_FK", referencedColumnName = "id_genero")
-    Genero genero;
+
+    public LivroDTO(Livro livro) {
+        this.idLivro = livro.getIdLivro();
+        this.titulo = livro.getTitulo();
+        this.dataInicio = livro.getDataInicio();
+        this.dataTermino = livro.getDataTermino();
+        this.qtdPaginas = livro.getQtdPaginas();
+        this.imgCapa = livro.getImgCapa();
+        if(livro.getAutor() == null) {
+            this.autorDTO = null;
+        } else {
+            this.autorDTO = new AutorDTO(livro.getAutor());
+        }
+    }
 
     public int getIdLivro() {
         return idLivro;
@@ -84,19 +80,11 @@ public class Livro {
         this.imgCapa = imgCapa;
     }
 
-    public Autor getAutor() {
-        return autor;
+    public AutorDTO getAutorDTO() {
+        return autorDTO;
     }
 
-    public void setAutor(Autor autor) {
-        this.autor = autor;
-    }
-
-    public Genero getGenero() {
-        return genero;
-    }
-
-    public void setGenero(Genero genero) {
-        this.genero = genero;
+    public void setAutorDTO(AutorDTO autorDTO) {
+        this.autorDTO = autorDTO;
     }
 }

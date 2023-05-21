@@ -1,10 +1,12 @@
 package com.api.livros.services;
 
+import com.api.livros.DTOs.AutorDTO;
 import com.api.livros.entities.Autor;
 import com.api.livros.repositories.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,8 +19,31 @@ public class AutorService {
         return autorRepo.findAll();
     }
 
+    public List<AutorDTO> getAllAutoresDTO() {
+
+        List<Autor> listaAutores = autorRepo.findAll();
+
+        List<AutorDTO> listaAutoresDTO = new ArrayList<>();
+
+        for(Autor a : listaAutores ) {
+            AutorDTO autorDTO = new AutorDTO(a);
+            listaAutoresDTO.add(autorDTO);
+        }
+
+        return listaAutoresDTO;
+    }
+
     public Autor getAutorById(Integer id) {
         return autorRepo.findById(id).orElse(null);
+    }
+
+    public AutorDTO getAutorDTOById(Integer id) {
+
+        Autor autor = autorRepo.findById(id).orElse(null);
+        if(autor == null)
+            return null;
+
+        return new AutorDTO(autor);
     }
 
     public Autor saveAutor(Autor autor) {

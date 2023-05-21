@@ -1,5 +1,6 @@
 package com.api.livros.controllers;
 
+import com.api.livros.DTOs.AutorDTO;
 import com.api.livros.entities.Autor;
 import com.api.livros.services.AutorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,52 +16,68 @@ import java.util.List;
 public class AutorController {
 
     @Autowired
-    AutorService livroService;
+    AutorService autorService;
 
     @GetMapping
-    public ResponseEntity<List<Autor>> getAllAutors() {
-        return new ResponseEntity<>(livroService.getAllAutores(), HttpStatus.OK);
+    public ResponseEntity<List<Autor>> getAllAutores() {
+        return new ResponseEntity<>(autorService.getAllAutores(), HttpStatus.OK);
+    }
+
+    @GetMapping("/dto")
+    public ResponseEntity<List<AutorDTO>> getAllAutoresDTO() {
+        return new ResponseEntity<>(autorService.getAllAutoresDTO(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Autor> getAutorById(@PathVariable Integer id) {
-        Autor livroResponse = livroService.getAutorById(id);
+        Autor autorResponse = autorService.getAutorById(id);
 
-        if(livroResponse == null) {
+        if(autorResponse == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(livroResponse, HttpStatus.OK);
+            return new ResponseEntity<>(autorResponse, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/dto/{id}")
+    public ResponseEntity<AutorDTO> getAutorDTOById(@PathVariable Integer id) {
+        AutorDTO autorResponse = autorService.getAutorDTOById(id);
+
+        if(autorResponse == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(autorResponse, HttpStatus.OK);
         }
     }
 
     @PostMapping
     public ResponseEntity<Autor> saveAutor(@RequestBody Autor autor) {
-        Autor livroResponse = livroService.saveAutor(autor);
+        Autor autorResponse = autorService.saveAutor(autor);
 
-        if(livroResponse == null) {
+        if(autorResponse == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
         } else {
-            return new ResponseEntity<>(livroResponse, HttpStatus.CREATED);
+            return new ResponseEntity<>(autorResponse, HttpStatus.CREATED);
         }
     }
 
     @PutMapping
     public ResponseEntity<Autor> updateAutor(@RequestBody Autor autor) {
-        Autor livroResponse = livroService.updateAutor(autor);
+        Autor autorResponse = autorService.updateAutor(autor);
 
-        if(livroResponse == null) {
+        if(autorResponse == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
         } else {
-            return new ResponseEntity<>(livroResponse, HttpStatus.OK);
+            return new ResponseEntity<>(autorResponse, HttpStatus.OK);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteAutor(@PathVariable Integer id) {
-        Boolean livroResponse = livroService.deleteAutor(id);
+        Boolean autorResponse = autorService.deleteAutor(id);
 
-        if(livroResponse) {
-            return new ResponseEntity<>(livroResponse, HttpStatus.OK);
+        if(autorResponse) {
+            return new ResponseEntity<>(autorResponse, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
         }

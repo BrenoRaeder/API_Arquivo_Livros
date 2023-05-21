@@ -1,5 +1,6 @@
 package com.api.livros.controllers;
 
+import com.api.livros.DTOs.LivroDTO;
 import com.api.livros.entities.Livro;
 import com.api.livros.services.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,25 @@ public class LivroController {
         return new ResponseEntity<>(livroService.getAllLivros(), HttpStatus.OK);
     }
 
+    @GetMapping("/dto")
+    public ResponseEntity<List<LivroDTO>> getAllLivrosDTO() {
+        return new ResponseEntity<>(livroService.getAllLivrosDTO(), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Livro> getLivroById(@PathVariable Integer id) {
         Livro livroResponse = livroService.getLivroById(id);
+
+        if(livroResponse == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(livroResponse, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/dto/{id}")
+    public ResponseEntity<LivroDTO> getLivroDTOById(@PathVariable Integer id) {
+        LivroDTO livroResponse = livroService.getLivroDTOById(id);
 
         if(livroResponse == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -55,9 +72,9 @@ public class LivroController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteLivro(@PathVariable Integer id) {
-        Boolean livroResponse = livroService.deleteLivro(id);
+    @DeleteMapping
+    public ResponseEntity<Boolean> deleteLivro(@RequestBody Livro livro) {
+        Boolean livroResponse = livroService.deleteLivro(livro);
 
         if(livroResponse) {
             return new ResponseEntity<>(livroResponse, HttpStatus.OK);
